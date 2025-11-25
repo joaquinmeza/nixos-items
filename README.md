@@ -11,6 +11,7 @@ My full NixOS configuration is not yet public as I'm still sanitizing it for pri
 ## Contents
 
 - **[Google-Antigravity](./Google-Antigravity/)** - Nix package for Google's Antigravity agentic development platform
+- **[phpIPAM](./phpIPAM/)** - NixOS service module for phpIPAM (IP address management) using native PHP-FPM + MySQL
 
 Each item has its own README with usage instructions and details.
 
