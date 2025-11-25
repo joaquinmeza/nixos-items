@@ -393,13 +393,22 @@ sudo systemctl restart phpfpm-phpipam
 
 ### Database Connection Failed
 
-Check MySQL credentials:
+**Error: "Access denied for user 'phpipam'@'localhost'"**
+
+This usually means the host is set incorrectly in `config.php`. The module sets it to `localhost` by default, but if you see `127.0.0.1`, change it:
+
 ```bash
-# Verify secret is decrypted
+# Fix the host setting
+sudo sed -i "s/\$db\['host'\] = '127.0.0.1';/\$db['host'] = 'localhost';/" /var/lib/phpipam/config.php
+```
+
+**Verify MySQL credentials:**
+```bash
+# Check secret is decrypted
 sudo cat /run/secrets/phpipam/db_password
 
-# Test database connection
-sudo -u phpipam mysql -u phpipam -p phpipam
+# Test database connection manually
+sudo cat /run/secrets/phpipam/db_password | sudo mysql -u phpipam -p phpipam -e "SHOW TABLES;"
 ```
 
 Check database exists:
@@ -407,6 +416,18 @@ Check database exists:
 sudo mysql -e "SHOW DATABASES LIKE 'phpipam';"
 sudo mysql -e "SELECT User, Host FROM mysql.user WHERE User='phpipam';"
 ```
+
+### Installation Error: "SELECT command denied for table mysql.user"
+
+**Error during automatic database installation:**
+```
+SQLSTATE[42000]: Syntax error or access violation: 1142
+SELECT command denied to user 'phpipam'@'localhost' for table `mysql`.`user`
+```
+
+**Solution:** During the automatic database installation, **uncheck the "Set permissions to tables" checkbox**. The database permissions are already configured via the NixOS module, so the installer doesn't need to create them.
+
+Alternatively, you can use the MySQL `root` user (with no password) for the initial installation, then switch back to the `phpipam` user for normal operations.
 
 ### Permission Denied Errors
 
