@@ -156,7 +156,7 @@ in
         # Update database credentials in config.php
         DB_PASS=$(cat ${config.sops.secrets."phpipam/db_password".path})
 
-        sed -i "s/^\$db\['host'\] = 'localhost';/\$db['host'] = 'localhost';/" ${webroot}/config.php
+        sed -i "s/^\$db\['host'\] = .*;/\$db['host'] = 'localhost';/" ${webroot}/config.php
         sed -i "s/^\$db\['user'\] = 'phpipam';/\$db['user'] = '${dbUser}';/" ${webroot}/config.php
         sed -i "s/^\$db\['pass'\] = 'phpipamadmin';/\$db['pass'] = '$DB_PASS';/" ${webroot}/config.php
         sed -i "s/^\$db\['name'\] = 'phpipam';/\$db['name'] = '${dbName}';/" ${webroot}/config.php

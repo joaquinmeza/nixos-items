@@ -261,9 +261,15 @@ colmena apply --impure --on your-server
 1. Navigate to `https://ipam.example.com`
 2. Click **"New phpipam installation"**
 3. Choose **"Automatic database installation"**
-4. The database will be initialized automatically
-5. Default credentials: `Admin` / `ipamadmin`
-6. **Change the password immediately!**
+4. Enter database credentials:
+   - **MySQL/MariaDB username:** `phpipam`
+   - **MySQL/MariaDB password:** (the password from your sops secret)
+   - **Database location:** `localhost` (already filled in)
+   - **Database name:** `phpipam` (already filled in)
+   - **IMPORTANT:** Uncheck "Set permissions to tables" - permissions are already configured via NixOS
+5. Click **Install database**
+6. After installation completes, log in with default credentials: `Admin` / `ipamadmin`
+7. **Change the password immediately!**
 
 ### Step 5: Configuration
 
